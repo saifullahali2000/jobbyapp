@@ -44,6 +44,29 @@ const salaryRangesList = [
   },
 ]
 
+const locations = [
+  {
+    locationId: 'HYDERABAD',
+    location: 'Hyderabad',
+  },
+  {
+    locationId: 'BANGALORE',
+    location: 'Bangalore',
+  },
+  {
+    locationId: 'CHENNAI',
+    location: 'Chennai',
+  },
+  {
+    locationId: 'DELHI',
+    location: 'Delhi',
+  },
+  {
+    locationId: 'MUMBAI',
+    location: 'Mumbai',
+  },
+]
+
 const apiStatusConstants = {
   initial: 'INITIAL',
   inProgress: 'INPROGRESS',
@@ -56,6 +79,7 @@ class JobProfileSection extends Component {
     jobsList: [],
     searchInput: '',
     employmentType: [],
+    locationType: [],
     salaryRange: 0,
     apiStatus: apiStatusConstants.initial,
   }
@@ -70,8 +94,8 @@ class JobProfileSection extends Component {
     })
 
     const jwtToken = Cookies.get('jwt_token')
-    const {salaryRange, employmentType, searchInput} = this.state
-    const url = `https://apis.ccbp.in/jobs?employment_type=${employmentType.join()}&minimum_package=${salaryRange}&search=${searchInput}`
+    const {salaryRange, employmentType, searchInput, locationType} = this.state
+    const url = `https://apis.ccbp.in/jobs?employment_type=${employmentType.join()}&minimum_package=${salaryRange}&search=${searchInput}&location=${locationType.join()}`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -120,6 +144,13 @@ class JobProfileSection extends Component {
   changeEmploymentType = type => {
     this.setState(
       prev => ({employmentType: [...prev.employmentType, type]}),
+      this.getJobDetails,
+    )
+  }
+
+  changeLocation = locationId => {
+    this.setState(
+      prev => ({locationType: [...prev.locationType, locationId]}),
       this.getJobDetails,
     )
   }
@@ -238,8 +269,10 @@ class JobProfileSection extends Component {
           <JobsFilterGroup
             employmentTypesList={employmentTypesList}
             salaryRangesList={salaryRangesList}
+            locations={locations}
             changeEmploymentType={this.changeEmploymentType}
             changeSalaryRange={this.changeSalaryRange}
+            changeLocation={this.changeLocation}
             searchInput={searchInput}
             changeSearchInput={this.changeSearchInput}
             getJobDetails={this.getJobDetails}
