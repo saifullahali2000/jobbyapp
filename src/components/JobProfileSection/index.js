@@ -132,7 +132,7 @@ class JobProfileSection extends Component {
   }
 
   onKeyDown = event => {
-    if (event.key === 'Enter') {
+    if (event.key === 'click') {
       this.getJobDetails()
     }
   }

@@ -8,11 +8,12 @@
   width: 150px;
   height: 40px;
   margin-top: 10px;
-  margin-left: 100px;
+  margin-left: 40px;
 }
 .header-list-items {
   list-style-type: none;
   display: flex;
+  align-items: center;
   justify-content: center;
   margin-right: 125px;
 }
@@ -30,8 +31,22 @@
   font-family: 'Roboto';
   font-weight: 500;
   border: none;
-  margin-right: 55px;
+  margin-right: 40px;
   width: 110px;
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .logout-button {
+    padding: 5px;
+  }
+
+  .website-logo {
+    width: 100px;
+    height: 30px;
+    margin-right: 5px;
+    margin-top: 20px;
+  }
 }
 .jon-heading {
   margin-left: 40px;

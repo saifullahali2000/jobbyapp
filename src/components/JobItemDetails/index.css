@@ -4,6 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 30px;
 }
 .full-job-item-container {
   display: flex;
@@ -95,7 +96,6 @@
   margin-top: 15px;
 }
 .visit-link {
-  color: #fff;
   text-decoration: none;
   color: #6366f1;
   font-size: 20px;
@@ -140,18 +140,34 @@
   display: flex;
   margin-top: 25px;
 }
+
+@media screen and (max-width: 867px) {
+  .life-at-company-container {
+    display: block;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 .life-company-desc {
   color: #fff;
   font-family: 'Roboto';
   line-height: 2;
   font-size: 20px;
   margin-right: 55px;
+  text-align: center;
 }
 .company-logo {
   width: 320px;
   height: 270px;
-  margin-left: 55px;
   border-radius: 8px;
+}
+@media screen and (max-width: 867px) {
+  .company-logo {
+    width: 200px;
+    height: 200px;
+    margin-top: 15px;
+  }
 }
 .similar-job-heading {
   color: #fff;

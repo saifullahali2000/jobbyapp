@@ -3,7 +3,6 @@
   border-radius: 15px;
   padding: 25px;
   margin: 15px;
-  width: 800px;
   margin-right: 60px;
   display: flex;
   flex-direction: column;
@@ -67,7 +66,7 @@
 }
 .line {
   border: 1px solid #7e858e;
-  width: 100%;
+  width: auto;
 }
 .desc-heading {
   color: #fff;
