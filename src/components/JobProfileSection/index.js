@@ -7,64 +7,25 @@ import JobsFilterGroup from '../JobsFilterGroup'
 import './index.css'
 
 const employmentTypesList = [
-  {
-    label: 'Full Time',
-    employmentTypeId: 'FULLTIME',
-  },
-  {
-    label: 'Part Time',
-    employmentTypeId: 'PARTTIME',
-  },
-  {
-    label: 'Freelance',
-    employmentTypeId: 'FREELANCE',
-  },
-  {
-    label: 'Internship',
-    employmentTypeId: 'INTERNSHIP',
-  },
+  {label: 'Full Time', employmentTypeId: 'FULLTIME'},
+  {label: 'Part Time', employmentTypeId: 'PARTTIME'},
+  {label: 'Freelance', employmentTypeId: 'FREELANCE'},
+  {label: 'Internship', employmentTypeId: 'INTERNSHIP'},
 ]
 
 const salaryRangesList = [
-  {
-    salaryRangeId: '1000000',
-    label: '10 LPA and above',
-  },
-  {
-    salaryRangeId: '2000000',
-    label: '20 LPA and above',
-  },
-  {
-    salaryRangeId: '3000000',
-    label: '30 LPA and above',
-  },
-  {
-    salaryRangeId: '4000000',
-    label: '40 LPA and above',
-  },
+  {salaryRangeId: '1000000', label: '10 LPA and above'},
+  {salaryRangeId: '2000000', label: '20 LPA and above'},
+  {salaryRangeId: '3000000', label: '30 LPA and above'},
+  {salaryRangeId: '4000000', label: '40 LPA and above'},
 ]
 
 const locations = [
-  {
-    locationId: 'HYDERABAD',
-    location: 'Hyderabad',
-  },
-  {
-    locationId: 'BANGALORE',
-    location: 'Bangalore',
-  },
-  {
-    locationId: 'CHENNAI',
-    location: 'Chennai',
-  },
-  {
-    locationId: 'DELHI',
-    location: 'Delhi',
-  },
-  {
-    locationId: 'MUMBAI',
-    location: 'Mumbai',
-  },
+  {locationId: 'HYDERABAD', location: 'Hyderabad'},
+  {locationId: 'BANGALORE', location: 'Bangalore'},
+  {locationId: 'CHENNAI', location: 'Chennai'},
+  {locationId: 'DELHI', location: 'Delhi'},
+  {locationId: 'MUMBAI', location: 'Mumbai'},
 ]
 
 const apiStatusConstants = {
@@ -95,17 +56,19 @@ class JobProfileSection extends Component {
 
     const jwtToken = Cookies.get('jwt_token')
     const {salaryRange, employmentType, searchInput, locationType} = this.state
+
     const url = `https://apis.ccbp.in/jobs?employment_type=${employmentType.join()}&minimum_package=${salaryRange}&search=${searchInput}&location=${locationType.join()}`
+
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
       method: 'GET',
     }
+
     const response = await fetch(url, options)
     if (response.ok === true) {
       const data = await response.json()
-      console.log(data)
       const updatedData = data.jobs.map(eachJob => ({
         companyLogoUrl: eachJob.company_logo_url,
         employmentType: eachJob.employment_type,
@@ -132,7 +95,7 @@ class JobProfileSection extends Component {
   }
 
   onKeyDown = event => {
-    if (event.key === 'click') {
+    if (event.key === 'Enter') {
       this.getJobDetails()
     }
   }
@@ -142,17 +105,21 @@ class JobProfileSection extends Component {
   }
 
   changeEmploymentType = type => {
-    this.setState(
-      prev => ({employmentType: [...prev.employmentType, type]}),
-      this.getJobDetails,
-    )
+    this.setState(prevState => {
+      const updatedEmploymentType = prevState.employmentType.includes(type)
+        ? prevState.employmentType.filter(eachType => eachType !== type)
+        : [...prevState.employmentType, type]
+      return {employmentType: updatedEmploymentType}
+    }, this.getJobDetails)
   }
 
   changeLocation = locationId => {
-    this.setState(
-      prev => ({locationType: [...prev.locationType, locationId]}),
-      this.getJobDetails,
-    )
+    this.setState(prevState => {
+      const updatedLocationType = prevState.locationType.includes(locationId)
+        ? prevState.locationType.filter(each => each !== locationId)
+        : [...prevState.locationType, locationId]
+      return {locationType: updatedLocationType}
+    }, this.getJobDetails)
   }
 
   renderJobDetails = () => {
@@ -168,7 +135,7 @@ class JobProfileSection extends Component {
             placeholder="Search"
             value={searchInput}
             onChange={this.changeSearchInput}
-            onKeyDown={this.onEnterKey}
+            onKeyDown={this.onKeyDown}
           />
           <button
             type="button"
@@ -194,13 +161,13 @@ class JobProfileSection extends Component {
             placeholder="Search"
             value={searchInput}
             onChange={this.changeSearchInput}
-            onKeyDown={this.onEnterKey}
+            onKeyDown={this.onKeyDown} // Handle Enter key correctly
           />
           <button
             type="button"
             data-testid="searchButton"
             className="search-button"
-            onClick={this.getJobDetails}
+            onClick={this.getJobDetails} // Trigger search on button click
           >
             <BsSearch className="search-icon" aria-label="none" />
           </button>
@@ -262,7 +229,6 @@ class JobProfileSection extends Component {
   }
 
   render() {
-    const {searchInput} = this.state
     return (
       <div className="job-details-container">
         <div className="render-group-items">
@@ -273,9 +239,6 @@ class JobProfileSection extends Component {
             changeEmploymentType={this.changeEmploymentType}
             changeSalaryRange={this.changeSalaryRange}
             changeLocation={this.changeLocation}
-            searchInput={searchInput}
-            changeSearchInput={this.changeSearchInput}
-            getJobDetails={this.getJobDetails}
           />
         </div>
         <div className="responsive-items">

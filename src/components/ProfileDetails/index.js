@@ -45,6 +45,10 @@ class ProfileDetails extends Component {
         profileList: profileData,
         apiStatus: apiStatusConstants.success,
       })
+    } else {
+      this.setState({
+        apiStatus: apiStatusConstants.failure,
+      })
     }
   }
 
